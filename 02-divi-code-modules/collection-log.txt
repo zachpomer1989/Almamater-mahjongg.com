@@ -1,0 +1,31 @@
+=== Divi content collection ===
+Date: 2026-08-25 16:48:39 UTC
+Site: /home/u141-wwt5r1geejhs/www/almamater-mahjongg.com/public_html
+
+--- Theme Options / Integration ---
+OK  captured (4 of 4 boxes empty)
+
+--- Content inventory ---
+OK  22 items
+
+--- Page content ---
+    371435-licensing  23212B  et_pb_code refs: 0
+    371430-coming-soon  13657B  et_pb_code refs: 0
+    371337-refund-policy  4023B  et_pb_code refs: 0
+    371332-contact  24416B  et_pb_code refs: 0
+    371328-about  57883B  et_pb_code refs: 0
+    371319-privacy-policy  13386B  et_pb_code refs: 0
+    371313-terms-of-service  12540B  et_pb_code refs: 0
+    371249-my-account  68B  et_pb_code refs: 0
+    371248-checkout  4217B  et_pb_code refs: 0
+    371247-cart  5450B  et_pb_code refs: 0
+    371246-shop  1B  et_pb_code refs: 0
+    371192-home  72252B  et_pb_code refs: 0
+OK  12 pages dumped
+
+--- Pattern scan across all page content ---
+    Vimeo signed URL (expires): 1 page(s)
+
+=== Done ===
+
+Next: git add -A && git commit -m 'Add Divi content' && git push

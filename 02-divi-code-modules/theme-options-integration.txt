@@ -1,0 +1,12 @@
+===== integration_head =====
+(empty)
+
+===== integration_body =====
+(empty)
+
+===== integration_single_top =====
+(empty)
+
+===== integration_single_bottom =====
+(empty)
+
