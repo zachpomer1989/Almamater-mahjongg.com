@@ -1,0 +1,11 @@
+HTTP/2 200 
+server: nginx
+date: Tue, 25 Aug 2026 16:06:36 GMT
+content-type: text/xml; charset=UTF-8
+vary: Accept-Encoding
+x-robots-tag: noindex, follow
+x-httpd: 1
+host-header: 6b7412fb82ca5edfd0917e3957f05d89
+x-proxy-cache: MISS
+x-proxy-cache-info: 0 NC:000000 UP:
+

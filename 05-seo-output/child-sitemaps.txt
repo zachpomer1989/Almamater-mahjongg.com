@@ -1,0 +1,41 @@
+=== Child sitemap check ===
+Date: 2026-08-25 16:06:35 UTC
+
+Found 4 child sitemaps.
+
+--- page-sitemap
+    url:     https://almamater-mahjongg.com/page-sitemap.xml
+    status:  200    size: 2020B    <url> entries: 12
+    content-type: text/xml; charset=UTF-8
+    x-robots-tag: noindex, follow
+    OK  starts with <?xml
+
+--- product-sitemap
+    url:     https://almamater-mahjongg.com/product-sitemap.xml
+    status:  200    size: 2717B    <url> entries: 7
+    content-type: text/xml; charset=UTF-8
+    x-robots-tag: noindex, follow
+    OK  starts with <?xml
+
+--- product_cat-sitemap
+    url:     https://almamater-mahjongg.com/product_cat-sitemap.xml
+    status:  200    size: 1456B    <url> entries: 6
+    content-type: text/xml; charset=UTF-8
+    x-robots-tag: noindex, follow
+    OK  starts with <?xml
+
+--- product_tag-sitemap
+    url:     https://almamater-mahjongg.com/product_tag-sitemap.xml
+    status:  200    size: 2404B    <url> entries: 13
+    content-type: text/xml; charset=UTF-8
+    x-robots-tag: noindex, follow
+    OK  starts with <?xml
+
+=== Cache-bypass re-fetch of the index ===
+status: 200
+size:   826B
+cached copy matches freshly generated output
+
+=== Done ===
+
+Next: git add -A && git commit -m 'Add child sitemap check' && git push
