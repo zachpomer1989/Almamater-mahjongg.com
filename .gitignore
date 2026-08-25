@@ -1,0 +1,27 @@
+# ── NEVER COMMIT SECRETS ────────────────────────────────────────────
+# wp-config.php contains your database password and auth salts.
+# It is not needed for this review. See 04-server-config/README.md.
+wp-config.php
+wp-config-sample.php
+
+# Database dumps and backups
+*.sql
+*.sql.gz
+*.sql.zip
+*-backup-*.zip
+*.wpress
+
+# Credentials / keys
+.env
+.env.*
+*.pem
+*.key
+*.ppk
+.htpasswd
+credentials*
+*secret*
+
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
