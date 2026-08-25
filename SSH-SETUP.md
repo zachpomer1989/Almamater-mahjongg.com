@@ -162,6 +162,77 @@ git config user.email "zach@zachpomer.com"
 
 ---
 
+---
+
+## Passphrase problems
+
+An SSH key passphrase **cannot be recovered or reset**. It encrypts the
+private key file itself, so a forgotten passphrase means the key is
+unusable. Generate a new one — that is the only fix, not a workaround.
+
+### Don't confuse the three credentials
+
+| Credential | Used for |
+|---|---|
+| SiteGround account password | Logging into Site Tools in a browser. **Not valid for SSH.** |
+| SSH key passphrase | Unlocking the private key file, locally |
+| Database password | Inside wp-config.php, unrelated to both |
+
+**SiteGround does not accept password authentication for SSH.** It is
+key-only. Entering your account password at an `Enter passphrase for key`
+prompt will always fail — it is not the credential being requested.
+
+### Replace the key
+
+1. Site Tools → **Devs → SSH Keys Manager**
+2. Delete the old key; an unusable key is worth nothing
+3. **Create New Key**, new name, **leave the passphrase field empty**
+4. Download the private key
+
+```bash
+mv ~/Downloads/almamater-review ~/.ssh/siteground_key
+chmod 600 ~/.ssh/siteground_key
+ssh -p 18765 -i ~/.ssh/siteground_key USERNAME@HOSTNAME
+```
+
+### If a blank passphrase is rejected
+
+Set a simple one, then strip it locally:
+
+```bash
+ssh-keygen -p -f ~/.ssh/siteground_key
+```
+
+Enter the old passphrase, then press Enter twice for the new one. The key
+stays valid and stops prompting.
+
+### To keep a passphrase
+
+Load it once per session rather than typing it repeatedly:
+
+```bash
+ssh-add ~/.ssh/siteground_key
+```
+
+A blank passphrase is acceptable here: the key lives on your own machine and
+grants access only to your hosting account.
+
+---
+
+## If SSH keeps fighting you
+
+The browser path reaches the same result in roughly ten minutes with no
+credentials at all:
+
+- WPCode export JSON and Divi Portability JSON are admin download buttons
+- `.htaccess` and `functions.php` come from Site Tools → File Manager
+  (enable "show hidden files")
+- Sitemap, robots.txt, and homepage are browser View Source saves
+- Upload at github.com → switch to the branch → **Add file → Upload files**
+
+You lose only `collect.sh`'s automated header capture and WP-CLI checks.
+Useful, not essential.
+
 ## Troubleshooting
 
 **`Permission denied (publickey)` on GitHub** — the deploy key lacks write
