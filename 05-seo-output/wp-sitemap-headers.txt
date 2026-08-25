@@ -1,0 +1,24 @@
+HTTP/2 301 
+server: nginx
+date: Tue, 25 Aug 2026 15:55:34 GMT
+content-type: text/html; charset=UTF-8
+location: https://almamater-mahjongg.com/sitemap_index.xml
+x-cache-enabled: True
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+x-redirect-by: Yoast SEO
+x-httpd: 1
+host-header: 6b7412fb82ca5edfd0917e3957f05d89
+x-proxy-cache: MISS
+x-proxy-cache-info: 0301 NC:000000 UP:
+
+HTTP/2 200 
+server: nginx
+date: Tue, 25 Aug 2026 15:55:34 GMT
+content-type: text/xml; charset=UTF-8
+vary: Accept-Encoding
+x-robots-tag: noindex, follow
+x-httpd: 1
+host-header: 8441280b0c35cbc1147f8ba998a563a7
+x-proxy-cache: HIT
+

@@ -1,0 +1,41 @@
+=== Collection run ===
+Date:   2026-08-25 15:55:21 UTC
+Domain: almamater-mahjongg.com
+Host:   c1102614.sgvps.net
+
+WordPress root: /home/u141-wwt5r1geejhs/www/almamater-mahjongg.com/public_html
+
+--- Server config ---
+OK  .htaccess copied
+OK  wp-config constants extracted (secrets excluded)
+OK  environment recorded
+
+--- Theme ---
+OK  theme list recorded
+
+--- WordPress state ---
+OK  plugin list captured
+OK  WordPress state captured
+
+--- Sitemap / robots (with headers) ---
+OK  /sitemap_index.xml -> HTTP 200 (826 bytes)
+    starts with <?xml - clean
+OK  /sitemap.xml -> HTTP 200 (826 bytes)
+    starts with <?xml - clean
+OK  /wp-sitemap.xml -> HTTP 200 (826 bytes)
+    starts with <?xml - clean
+OK  robots.txt fetched
+
+--- Page source ---
+OK  homepage fetched
+
+=== Done ===
+
+Note: these fetches ran from the server itself, so they may bypass
+Cloudflare or the WAF. Also save a browser View Source of the sitemap
+for comparison - a difference between the two is itself a finding.
+
+Next:
+  1. Add WPCode export JSON  -> 01-wpcode-snippets/
+  2. Add Divi layout exports -> 02-divi-code-modules/
+  3. git add -A && git commit -m 'Add site export' && git push

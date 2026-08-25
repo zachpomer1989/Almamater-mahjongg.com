@@ -1,0 +1,13 @@
+=== Core ===
+WP version:  7.1
+
+=== URLs (www vs non-www matters for Search Console) ===
+home:        https://almamater-mahjongg.com
+siteurl:     https://almamater-mahjongg.com
+
+=== Indexability ===
+blog_public: 1
+    OK - search engines are not discouraged.
+
+=== Permalinks ===
+structure:   /%postname%/

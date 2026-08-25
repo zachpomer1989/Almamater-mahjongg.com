@@ -1,0 +1,2 @@
+PHP CLI version: PHP 8.2.33 (cli) (built: Jul 30 2026 15:53:27) (ZTS)
+Server:          Linux c1102614.sgvps.net 6.12.91-MCIclouder1135-C9 #1135 SMP PREEMPT Thu May 28 15:36:53 EEST 2026 x86_64 GNU/Linux

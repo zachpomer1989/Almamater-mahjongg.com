@@ -1,0 +1,13 @@
+HTTP/2 200 
+server: nginx
+date: Tue, 25 Aug 2026 15:55:35 GMT
+content-type: text/html; charset=UTF-8
+vary: Accept-Encoding
+x-cache-enabled: True
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+link: <https://almamater-mahjongg.com/wp-json/>; rel="https://api.w.org/", <https://almamater-mahjongg.com/wp-json/wp/v2/pages/371192>; rel="alternate"; title="JSON"; type="application/json", <https://almamater-mahjongg.com/>; rel=shortlink
+x-httpd: 1
+host-header: 8441280b0c35cbc1147f8ba998a563a7
+x-proxy-cache: HIT
+
