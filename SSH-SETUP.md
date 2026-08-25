@@ -164,6 +164,63 @@ git config user.email "zach@zachpomer.com"
 
 ---
 
+---
+
+## Windows (PowerShell)
+
+The commands elsewhere in this guide are macOS/Linux. On Windows, `chmod`
+does not exist and permissions are set with `icacls` instead. Windows
+OpenSSH still enforces key permissions, so this step is not optional.
+
+**Run these one at a time.** Pasting multiple lines at once can concatenate
+them (producing errors like `Could not resolve hostname hostnamemv`).
+
+First get your real credentials from Site Tools → **Devs → SSH Keys
+Manager** (click the manage icon beside the key if the panel is hidden):
+
+- Username — of the form `u1234-abcdefgh`
+- Hostname — a server hostname or IP
+- Port — normally 18765
+
+`USERNAME@HOSTNAME` in this guide is a placeholder. Substitute your values.
+
+```powershell
+# 1. Check what downloaded, and its exact filename
+Get-ChildItem ~\Downloads
+```
+
+```powershell
+# 2. Create .ssh if it does not exist
+New-Item -ItemType Directory -Force -Path ~\.ssh
+```
+
+```powershell
+# 3. Move and rename - substitute the real filename from step 1
+Move-Item ~\Downloads\<actual-filename> ~\.ssh\siteground_key
+```
+
+```powershell
+# 4. Restrict permissions (the chmod 600 equivalent)
+$key = "$env:USERPROFILE\.ssh\siteground_key"
+icacls $key /inheritance:r
+icacls $key /grant:r "$($env:USERNAME):(R)"
+```
+
+`icacls` does not expand `~`, which is why the full path is built into
+`$key` first. PowerShell and `ssh` both handle `~` fine.
+
+```powershell
+# 5. Connect, with your real username and hostname
+ssh -p 18765 -i ~\.ssh\siteground_key u1234-abcdefgh@your-hostname
+```
+
+If you see `UNPROTECTED PRIVATE KEY FILE`, step 4 did not apply. Re-run it
+and confirm it reports `Successfully processed 1 files`.
+
+Once connected you are on a Linux server, so every command in Parts 2-5
+works as written.
+
+
 ## Passphrase problems
 
 An SSH key passphrase **cannot be recovered or reset**. It encrypts the
