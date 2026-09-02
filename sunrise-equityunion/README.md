@@ -1,5 +1,9 @@
 # sunrise.equityunion.com — SiteGround SSH + GitHub setup
 
+> **Moved.** The maintained copy of this guide now lives in its own
+> repository: https://github.com/zachpomer1989/sunrise.equityunion.com
+> This copy is kept only as a record of the setup session.
+
 Goal: a Claude Code session can SSH into the SiteGround server that hosts
 `sunrise.equityunion.com` and make changes directly, with all scripts and
 site code tracked in a dedicated GitHub repository.
@@ -11,7 +15,7 @@ Current state (checked 2026-09-02):
 | DNS | `sunrise.equityunion.com` A record → `35.215.68.146` (GoDaddy → SiteGround). Resolves correctly. |
 | SSH key | **Done.** Generated on the PC, imported to SiteGround as `sunrise`. Login from the PC works; WP-CLI 2.12 and PHP 8.2 confirmed on the server. |
 | Server | `c1102614.sgvps.net`, user `u147-ugiaoph0ddm3`, port 18765. |
-| GitHub repo | **Not created yet.** The Claude GitHub integration cannot create repositories (403). Create it by hand — Part 3. |
+| GitHub repo | **Done.** `zachpomer1989/sunrise.equityunion.com`, private, seeded with this guide. |
 | SSH from Claude web sessions | **Not possible.** Cloud sessions sit behind an HTTP-only proxy that cannot carry SSH, to any host. Run Claude Code on the PC instead — Part 4. |
 | Claude Code on the PC | **Done.** Installed, `ssh sunrise` alias in place, and a local session ran `wp --info` on the server. Remote control enabled. |
 | WordPress root on the server | `~/www/sunrise.equityunion.com/public_html` (SiteGround layout; confirm with `ls ~/www`). |
