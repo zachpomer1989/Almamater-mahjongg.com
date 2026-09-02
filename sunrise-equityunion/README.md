@@ -43,8 +43,8 @@ Get-Content $env:USERPROFILE\.ssh\sunrise_key.pub
 One long line beginning `ssh-ed25519`. Copy all of it.
 
 The other file, `sunrise_key` with no extension, is the private key.
-Never commit it, never paste it into chat. It goes only into the Claude
-environment secret in Part 4.
+Never commit it, never paste it into chat or into SiteGround. It stays on
+the PC and is used there by Claude Code (Part 4).
 
 ---
 
