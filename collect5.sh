@@ -40,10 +40,10 @@ done
 TOTAL=$(wc -l < "$TMP/urls.txt")
 say "URLs in sitemap: $TOTAL"
 say ""
-say "STATUS  ROBOTS                 CANON  DESC  TITLE-LEN  URL"
-say "------  ---------------------  -----  ----  ---------  ---"
+say "STATUS  ROBOTS                 CANON  DESC  TITLE  WORDS  URL"
+say "------  ---------------------  -----  ----  -----  -----  ---"
 
-noindex=0; badcanon=0; nodesc=0; notok=0
+noindex=0; badcanon=0; nodesc=0; notok=0; thin=0
 
 while IFS= read -r url; do
   [ -z "$url" ] && continue
@@ -68,11 +68,17 @@ while IFS= read -r url; do
 
   tlen=$(grep -oiE "<title>[^<]*</title>" "$body" 2>/dev/null | head -1 | sed -e 's/<[^>]*>//g' | wc -c)
 
+  # Strip script/style then all tags to approximate the visible word count.
+  # Google declines to index thin pages regardless of technical correctness.
+  words=$(sed -e 's/<script[^>]*>.*<\/script>//g' -e 's/<style[^>]*>.*<\/style>//g' "$body" 2>/dev/null \
+          | sed -e 's/<[^>]*>/ /g' | tr -s '[:space:]' ' ' | wc -w)
+  [ "${words:-0}" -lt 200 ] && thin=$((thin+1))
+
   case "$robots" in *noindex*) noindex=$((noindex+1)) ;; esac
   [ "$code" != "200" ] && notok=$((notok+1))
 
-  printf "%-7s %-22s %-6s %-5s %-10s %s\n" \
-    "$code" "$robots" "$cflag" "$dflag" "$((tlen-1))" "${url#https://$DOMAIN}" | tee -a "$OUT"
+  printf "%-7s %-22s %-6s %-5s %-6s %-6s %s\n" \
+    "$code" "$robots" "$cflag" "$dflag" "$((tlen-1))" "$words" "${url#https://$DOMAIN}" | tee -a "$OUT"
 done < "$TMP/urls.txt"
 
 say ""
@@ -82,12 +88,20 @@ say "  Non-200 responses:       $notok"
 say "  Marked noindex:          $noindex"
 say "  Canonical not self:      $badcanon"
 say "  Missing meta description:$nodesc"
+say "  Thin (<200 words):       $thin"
 say ""
 if [ "$noindex" -gt 0 ] || [ "$badcanon" -gt 0 ] || [ "$notok" -gt 0 ]; then
   say ">>> Blocking problems found. These pages cannot be indexed as-is."
 else
-  say ">>> No blocking problems. Every URL is crawlable and indexable;"
-  say "    the delay is Google's queue, not the site."
+  say ">>> No technical block. Every URL is crawlable and indexable."
+  if [ "$thin" -gt 0 ]; then
+    say "    But $thin page(s) are under 200 words. Google routinely crawls"
+    say "    thin pages and declines to index them - that shows up in Search"
+    say "    Console as 'Crawled - currently not indexed'. This is a content"
+    say "    problem, not a technical one, and no amount of waiting fixes it."
+  else
+    say "    The delay is Google's queue, not the site."
+  fi
 fi
 say ""
 say "Next: git add -A && git commit -m 'Add indexability audit' && git push"
