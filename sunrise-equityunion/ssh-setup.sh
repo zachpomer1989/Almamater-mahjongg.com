@@ -1,9 +1,10 @@
 #!/bin/bash
 # ssh-setup.sh — bootstrap SSH access to the SiteGround server that hosts
-# sunrise.equityunion.com from a fresh Claude Code session.
+# sunrise.equityunion.com from a Linux shell (WSL, a GitHub Actions runner,
+# or a self-hosted Claude environment). Anthropic-hosted cloud sessions
+# cannot carry SSH; see README.md, Part 4.
 #
-# Reads connection details from environment variables set in the Claude
-# environment configuration (see README.md, Part 4):
+# Reads connection details from environment variables:
 #
 #   SITEGROUND_SSH_HOST      server hostname from SiteGround SSH Keys Manager
 #   SITEGROUND_SSH_USER      e.g. u1234-abcdefgh
@@ -55,18 +56,23 @@ fi
 
 CONF="$HOME/.ssh/config"
 touch "$CONF" && chmod 600 "$CONF"
-if ! grep -q '^Host sunrise$' "$CONF" 2>/dev/null; then
-  cat >> "$CONF" <<CFG
-Host sunrise
-  HostName $HOST
-  User $USER_
-  Port $PORT
-  IdentityFile $KEYFILE
-  IdentitiesOnly yes
-  StrictHostKeyChecking accept-new
-  ServerAliveInterval 30
-CFG
-fi
+# Rewrite the sunrise block each run so settings stay current.
+python3 - "$CONF" <<'PY'
+import re, sys
+p = sys.argv[1]; s = open(p).read()
+s = re.sub(r'(?ms)^Host sunrise\n(?:[ \t]+.*\n?)*', '', s)
+open(p, 'w').write(s.rstrip('\n') + ('\n' if s.strip() else ''))
+PY
+{
+  echo "Host sunrise"
+  echo "  HostName $HOST"
+  echo "  User $USER_"
+  echo "  Port $PORT"
+  echo "  IdentityFile $KEYFILE"
+  echo "  IdentitiesOnly yes"
+  echo "  StrictHostKeyChecking accept-new"
+  echo "  ServerAliveInterval 30"
+} >> "$CONF"
 
 echo "=== Testing ssh sunrise ($USER_@$HOST:$PORT) ==="
 if ssh -o ConnectTimeout=20 sunrise 'echo "connected to $(hostname)"; command -v wp >/dev/null && wp --info | head -5 || echo "wp-cli: not on PATH"'; then
@@ -76,7 +82,7 @@ else
   rc=$?
   echo ""
   echo "!! connection failed (exit $rc)."
-  echo "   From a Claude session the usual cause is the environment network policy"
-  echo "   not allowing $HOST on port $PORT. From a PC it is usually a key mismatch."
+  echo "   Anthropic-hosted Claude cloud sessions cannot carry SSH at all."
+  echo "   Elsewhere the usual cause is a key mismatch or a firewall on port $PORT."
   exit "$rc"
 fi

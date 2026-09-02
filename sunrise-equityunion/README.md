@@ -9,10 +9,10 @@ Current state (checked 2026-09-02):
 | Item | Status |
 |---|---|
 | DNS | `sunrise.equityunion.com` A record → `35.215.68.146` (GoDaddy → SiteGround). Resolves correctly. |
-| GitHub repo | **Not created yet.** The Claude GitHub integration cannot create repositories (403). Create it by hand — Part 2. |
-| Network from Claude sessions | **Blocked.** The environment's egress policy denies `c1102614.sgvps.net` on port 18765. SSH will fail until that host is allowed — Part 4. |
-| SSH client in Claude sessions | **Missing.** The container image has no `ssh` binary. `ssh-setup.sh` installs `openssh-client` itself; add it to the environment setup script to avoid the delay — Part 4. |
-| SSH key | Generated and imported to SiteGround as `sunrise-claude`. Host `c1102614.sgvps.net`, user `u147-ugiaoph0ddm3`, port 18765. |
+| SSH key | **Done.** Generated on the PC, imported to SiteGround as `sunrise`. Login from the PC works; WP-CLI 2.12 and PHP 8.2 confirmed on the server. |
+| Server | `c1102614.sgvps.net`, user `u147-ugiaoph0ddm3`, port 18765. |
+| GitHub repo | **Not created yet.** The Claude GitHub integration cannot create repositories (403). Create it by hand — Part 3. |
+| SSH from Claude web sessions | **Not possible.** Cloud sessions sit behind an HTTP-only proxy that cannot carry SSH, to any host. Run Claude Code on the PC instead — Part 4. |
 
 Written for Windows PowerShell. **Copy one command block at a time.**
 Every block is a single line so PowerShell cannot fuse two commands.
@@ -105,61 +105,93 @@ and copy `sunrise-equityunion/*` plus the `.gitignore` from this repo into it.
 
 ---
 
-## Part 4 — Let Claude sessions SSH in
+## Part 4 — Let Claude make changes over SSH
 
-A Claude Code web session runs in a fresh container each time, so the key
-and connection details must come from the **environment configuration**,
-not from anything saved inside a session.
+### Why not from the web session
 
-At claude.ai/code → **Environments** → the environment you use for this
-repo → **Edit**:
+Claude Code on the web runs each session in a cloud container behind an
+HTTP/HTTPS proxy. SSH is not HTTP. A test from a session opened a tunnel to
+the SiteGround host on port 18765 and one to `github.com` on port 22, and
+neither carried a single byte of SSH data. The proxy's own documentation
+lists raw TCP protocols as unsupported. **No environment setting (allowed
+domains, environment variables, setup script) changes this**, so the private
+key must never be uploaded anywhere. It stays on the PC.
 
-### 4a. Environment variables
+### The working path: Claude Code on your PC
 
-| Name | Value |
-|---|---|
-| `SITEGROUND_SSH_HOST` | `c1102614.sgvps.net` |
-| `SITEGROUND_SSH_USER` | `u147-ugiaoph0ddm3` |
-| `SITEGROUND_SSH_PORT` | `18765` |
-| `SITEGROUND_SSH_KEY_B64` | the private key, base64-encoded (below) |
+The PC already has the key and already reaches the server, so Claude Code
+running there can SSH with nothing more to configure. PowerShell, one line
+at a time.
 
-Base64 avoids newline handling problems when pasting a multi-line key.
-Produce it on your PC and copy the output:
-
-```
-[Convert]::ToBase64String([IO.File]::ReadAllBytes("$env:USERPROFILE\.ssh\sunrise_key"))
-```
-
-### 4b. Setup script
-
-Under the environment's **Setup script** (runs when a session starts), add:
+**1. Install Claude Code** (no administrator needed):
 
 ```
-apt-get install -y -q openssh-client
+irm https://claude.ai/install.ps1 | iex
 ```
 
-`ssh-setup.sh` does this itself if the binary is missing, but a setup script
-makes every session start ready.
-
-### 4c. Network access
-
-The default policy blocked `sunrise.equityunion.com` from this session.
-Add `c1102614.sgvps.net` to the environment's allowed domains, or switch the
-environment to a policy that permits it. Port 18765 must be reachable, not
-only 443. A test from this session confirmed 18765 is currently refused.
-Docs: https://code.claude.com/docs/en/claude-code-on-the-web
-
-### 4d. Verify
-
-Start a new session in that environment and run:
+Close and reopen PowerShell, then confirm:
 
 ```
-bash sunrise-equityunion/ssh-setup.sh
+claude --version
 ```
 
-It writes the key to `~/.ssh`, creates a `sunrise` host alias, and runs
-`hostname` and `wp --info` on the server. From then on any session can use
-`ssh sunrise` and Claude can make changes on the live site.
+**2. Install Git for Windows** from https://git-scm.com/downloads/win with
+the default options. Optional, but it gives Claude a Bash tool and lets it
+clone the GitHub repo. Reopen PowerShell afterwards.
+
+**3. Create an `ssh sunrise` shortcut** so nobody has to type the key path
+and port again:
+
+```
+Add-Content -Path $env:USERPROFILE\.ssh\config -Value "Host sunrise`n  HostName c1102614.sgvps.net`n  User u147-ugiaoph0ddm3`n  Port 18765`n  IdentityFile ~/.ssh/sunrise_key`n  IdentitiesOnly yes"
+```
+
+Test it. A server prompt means it works; type `exit` to leave:
+
+```
+ssh sunrise
+```
+
+**4. Make a project folder and start Claude Code in it:**
+
+```
+New-Item -ItemType Directory -Force -Path $env:USERPROFILE\sunrise; Set-Location $env:USERPROFILE\sunrise; claude
+```
+
+Once the GitHub repo exists (Part 3) and Git for Windows is installed, use
+the repo as the folder instead:
+
+```
+Set-Location $env:USERPROFILE; git clone https://github.com/zachpomer1989/sunrise.equityunion.com.git sunrise; Set-Location sunrise; claude
+```
+
+**5. First message to Claude in that session:**
+
+> Run `ssh sunrise "wp --info"` to confirm you can reach the SiteGround
+> server, then list the WordPress site path and active plugins.
+
+From then on Claude can read and change files, run WP-CLI, and back up and
+restore, all over `ssh sunrise`.
+
+**6. Steer from your phone or the web (optional).** Inside the local
+session type `/remote-control`. The session keeps running on the PC and
+becomes visible at claude.ai/code and in the mobile app.
+
+### Alternative: GitHub Actions runner
+
+Once the repo exists, a workflow can SSH into SiteGround from a GitHub
+runner, with the private key stored as a repository secret. Claude web
+sessions then push a commit and the action executes it on the server. It is
+slower and less interactive than the PC path but needs no PC switched on.
+Ask for it when wanted.
+
+### `ssh-setup.sh`
+
+The script in this folder is for **Linux shells only**: WSL, a GitHub
+Actions runner, or a self-hosted Claude environment. It reads the host,
+user, port and base64-encoded key from `SITEGROUND_SSH_*` environment
+variables, writes `~/.ssh/config`, and tests the connection. Not for
+PowerShell and not for Claude web sessions.
 
 ---
 
@@ -169,11 +201,15 @@ It writes the key to `~/.ssh`, creates a `sunrise` host alias, and runs
 the private key in the environment does not match it. SiteGround never
 accepts passwords over SSH.
 
-**Connection hangs or times out from a Claude session** — the network
-policy still blocks the host, or port 18765 is not allowed. From your PC the
-same command works, which confirms it is the policy, not the key.
+**Connection hangs or times out from a Claude web session** — expected;
+web sessions cannot carry SSH. Use Claude Code on the PC (Part 4).
 
-**`CONNECT tunnel failed, response 403`** — same cause: egress policy.
+**`ssh: Could not resolve hostname`** — a placeholder such as
+`your-hostname` was pasted literally, or the `~/.ssh/config` line has a typo.
+Open `$env:USERPROFILE\.ssh\config` in Notepad and check the `Host sunrise` block.
+
+**Ran a Linux command in PowerShell** (`bash`, `apt-get` "not recognized") —
+those lines belong on the SiteGround server or in a Linux shell, not on the PC.
 
 **`wp: command not found`** — WP-CLI is missing from the PATH on that
 server; SiteGround normally provides it. Check with `ls /usr/local/bin/wp`.
