@@ -29,6 +29,15 @@ done
 [ -n "$KEY_B64$KEY_RAW" ] || { echo "!! neither SITEGROUND_SSH_KEY_B64 nor SITEGROUND_SSH_KEY is set"; missing=1; }
 [ "$missing" -eq 0 ] || { echo "Set the variables in the Claude environment configuration and start a new session."; exit 1; }
 
+if ! command -v ssh >/dev/null 2>&1; then
+  echo "=== ssh client missing; installing openssh-client ==="
+  if command -v apt-get >/dev/null 2>&1; then
+    (apt-get update -q >/dev/null 2>&1 || true)
+    apt-get install -y -q openssh-client >/dev/null 2>&1 || sudo apt-get install -y -q openssh-client >/dev/null 2>&1
+  fi
+  command -v ssh >/dev/null 2>&1 || { echo "!! could not install an ssh client; add 'apt-get install -y openssh-client' to the environment setup script"; exit 1; }
+fi
+
 mkdir -p "$HOME/.ssh" && chmod 700 "$HOME/.ssh"
 KEYFILE="$HOME/.ssh/sunrise_key"
 

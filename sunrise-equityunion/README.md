@@ -10,8 +10,9 @@ Current state (checked 2026-09-02):
 |---|---|
 | DNS | `sunrise.equityunion.com` A record → `35.215.68.146` (GoDaddy → SiteGround). Resolves correctly. |
 | GitHub repo | **Not created yet.** The Claude GitHub integration cannot create repositories (403). Create it by hand — Part 2. |
-| Network from Claude sessions | **Blocked.** The environment's egress policy denies `sunrise.equityunion.com`. SSH will fail until the SiteGround host is allowed — Part 4. |
-| SSH key | Not generated yet — Part 1. |
+| Network from Claude sessions | **Blocked.** The environment's egress policy denies `c1102614.sgvps.net` on port 18765. SSH will fail until that host is allowed — Part 4. |
+| SSH client in Claude sessions | **Missing.** The container image has no `ssh` binary. `ssh-setup.sh` installs `openssh-client` itself; add it to the environment setup script to avoid the delay — Part 4. |
+| SSH key | Generated and imported to SiteGround as `sunrise-claude`. Host `c1102614.sgvps.net`, user `u147-ugiaoph0ddm3`, port 18765. |
 
 Written for Windows PowerShell. **Copy one command block at a time.**
 Every block is a single line so PowerShell cannot fuse two commands.
@@ -58,7 +59,7 @@ environment secret in Part 4.
 Test from your PC, substituting your real values:
 
 ```
-ssh -p 18765 -i $env:USERPROFILE\.ssh\sunrise_key u1234-abcdefgh@your-hostname
+ssh -p 18765 -i $env:USERPROFILE\.ssh\sunrise_key u147-ugiaoph0ddm3@c1102614.sgvps.net
 ```
 
 Type `yes` at the host-authenticity prompt on the first connection.
@@ -117,8 +118,8 @@ repo → **Edit**:
 
 | Name | Value |
 |---|---|
-| `SITEGROUND_SSH_HOST` | hostname from SSH Keys Manager |
-| `SITEGROUND_SSH_USER` | `u1234-abcdefgh` |
+| `SITEGROUND_SSH_HOST` | `c1102614.sgvps.net` |
+| `SITEGROUND_SSH_USER` | `u147-ugiaoph0ddm3` |
 | `SITEGROUND_SSH_PORT` | `18765` |
 | `SITEGROUND_SSH_KEY_B64` | the private key, base64-encoded (below) |
 
@@ -129,15 +130,26 @@ Produce it on your PC and copy the output:
 [Convert]::ToBase64String([IO.File]::ReadAllBytes("$env:USERPROFILE\.ssh\sunrise_key"))
 ```
 
-### 4b. Network access
+### 4b. Setup script
+
+Under the environment's **Setup script** (runs when a session starts), add:
+
+```
+apt-get install -y -q openssh-client
+```
+
+`ssh-setup.sh` does this itself if the binary is missing, but a setup script
+makes every session start ready.
+
+### 4c. Network access
 
 The default policy blocked `sunrise.equityunion.com` from this session.
-Add the SiteGround **hostname** (the one from SSH Keys Manager, not just the
-site domain) to the environment's allowed domains, or switch the environment
-to a policy that permits it. Port 18765 must be reachable, not only 443.
+Add `c1102614.sgvps.net` to the environment's allowed domains, or switch the
+environment to a policy that permits it. Port 18765 must be reachable, not
+only 443. A test from this session confirmed 18765 is currently refused.
 Docs: https://code.claude.com/docs/en/claude-code-on-the-web
 
-### 4c. Verify
+### 4d. Verify
 
 Start a new session in that environment and run:
 
