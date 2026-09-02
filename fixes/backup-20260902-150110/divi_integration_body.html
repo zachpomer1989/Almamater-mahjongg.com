@@ -1,0 +1,104 @@
+<script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+
+<script>
+(function($){
+  function initCommunitySlider(){
+    var $c = $('.eu-community-carousel'); // or $('.eu-community-carousel.eu-peek')
+    if (!$c.length || typeof $.fn.slick !== 'function') return;
+
+    if ($c.hasClass('slick-initialized')) $c.slick('unslick');
+
+    $c.slick({
+      centerMode: true,
+      slidesToShow: 1,
+      centerPadding: '25%',    // shows ~25% of next/prev on each side
+      infinite: true,
+      arrows: false,
+      dots: true,
+      autoplay: true,
+      autoplaySpeed: 3500,
+      pauseOnHover: false,
+      pauseOnFocus: false,
+      speed: 700,
+      cssEase: 'cubic-bezier(.22,.61,.36,1)',
+      responsive: [
+        // tighten padding on smaller screens so the title/button don’t get cramped
+        { breakpoint: 1200, settings: { centerPadding: '20%' } },
+        { breakpoint: 981,  settings: { centerPadding: '16%' } },
+        { breakpoint: 600,  settings: { centerPadding: '10%' } }
+      ]
+    });
+  }
+  jQuery(initCommunitySlider);
+  jQuery(window).on('et_pb_after_init_modules et_hashchange', initCommunitySlider);
+})(jQuery);
+</script>
+
+<script>
+(function($){
+  function initTestimonialSlider(){
+    var $t = $('.eu-testimonials');
+    if (!$t.length || typeof $.fn.slick !== 'function') return;
+
+    $t.each(function(){
+      var $el = $(this);
+      if ($el.hasClass('slick-initialized')) $el.slick('unslick');
+
+      $el.slick({
+        slide: '.eu-t-slide',   // <— counts ONLY these as slides (fixes extra dots)
+        slidesToShow: 1,
+        arrows: false,
+        dots: true,
+        autoplay: true,
+        autoplaySpeed: 6000,
+        pauseOnHover: false,
+        pauseOnFocus: false,
+        speed: 500,
+        fade: true,
+        adaptiveHeight: true
+      });
+    });
+  }
+  $(document).ready(initTestimonialSlider);
+  $(window).on('load et_pb_after_init_modules et_hashchange', initTestimonialSlider);
+})(jQuery);
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    AOS.init({
+      duration: 800, // Animation duration
+      easing: "ease-in-out", // Animation easing style
+      once: true, // Animation only happens once
+    });
+  });
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  // Select EVERYTHING Divi normally outputs (sections, rows, columns, modules)
+  const elements = document.querySelectorAll(
+    'section:not(.no-reveal), .et_pb_section:not(.no-reveal), .et_pb_row, .et_pb_column, .et_pb_module'
+  );
+
+  // Add reveal class globally
+  elements.forEach(el => {
+    el.classList.add('reveal-on-scroll');
+  });
+
+  // IntersectionObserver for reveal animation
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  elements.forEach(el => observer.observe(el));
+
+});
+</script>
