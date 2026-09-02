@@ -13,6 +13,8 @@ Current state (checked 2026-09-02):
 | Server | `c1102614.sgvps.net`, user `u147-ugiaoph0ddm3`, port 18765. |
 | GitHub repo | **Not created yet.** The Claude GitHub integration cannot create repositories (403). Create it by hand — Part 3. |
 | SSH from Claude web sessions | **Not possible.** Cloud sessions sit behind an HTTP-only proxy that cannot carry SSH, to any host. Run Claude Code on the PC instead — Part 4. |
+| Claude Code on the PC | **Done.** Installed, `ssh sunrise` alias in place, and a local session ran `wp --info` on the server. Remote control enabled. |
+| WordPress root on the server | `~/www/sunrise.equityunion.com/public_html` (SiteGround layout; confirm with `ls ~/www`). |
 
 Written for Windows PowerShell. **Copy one command block at a time.**
 Every block is a single line so PowerShell cannot fuse two commands.
