@@ -1,0 +1,50 @@
+=== Source hunt ===
+Date: 2026-09-02 14:38:58 UTC
+
+--- A. Files under wp-content ---
+  [jsdelivr]
+
+  [cdnjs]
+
+  [typekit]
+
+  [progressive_redirect]
+
+  [fonts.googleapis]
+
+--- B. Divi theme file modification times ---
+  10 most recently modified .php files in the Divi parent theme:
+
+--- C. wp_options containing these strings ---
+  [jsdelivr] et_divi
+  [cdnjs] et_divi
+  [typekit] et_divi
+  [progressive_redirect] no match
+
+--- D. Posts / postmeta containing these strings ---
+  [jsdelivr] posts: none
+      postmeta: none
+  [cdnjs] posts: none
+      postmeta: none
+  [typekit] posts: none
+      postmeta: none
+  [progressive_redirect] posts: 371192(page:Home) 371204(revision:Home) 371205(revision:Home) 371234(revision:Home) 371235(revision:Home) 371240(revision:Home) 371242(revision:Home) 371257(revision:Home) 371260(revision:Home) 371262(revision:Home) 
+      postmeta: none
+
+--- E. Divi Theme Builder / Library layouts ---
+  et_pb_layout: 5 item(s)
+  et_template: 6 item(s)
+  et_header_layout: none
+  et_body_layout: 2 item(s)
+  et_footer_layout: 1 item(s)
+
+  scanning theme-builder dumps:
+    jsdelivr: 0 file(s)
+    cdnjs: 0 file(s)
+    typekit: 0 file(s)
+    progressive_redirect: 0 file(s)
+    fonts.googleapis: 0 file(s)
+
+=== Done ===
+
+Next: git add -A && git commit -m 'Add source hunt' && git push

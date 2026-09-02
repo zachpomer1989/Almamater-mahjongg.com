@@ -1,0 +1,57 @@
+=== Indexability audit ===
+Date: 2026-09-02 14:40:06 UTC
+
+URLs in sitemap: 38
+
+STATUS  ROBOTS                 CANON  DESC  TITLE  WORDS  URL
+------  ---------------------  -----  ----  -----  -----  ---
+200     index, follow, max-im  self   NO    27     11439  /
+200     index, follow, max-im  self   NO    27     14596  /shop/
+200     noindex, follow        OTHER  NO    27     9846   /checkout/
+200     noindex, follow        self   NO    33     8873   /my-account/
+200     index, follow, max-im  self   NO    39     8505   /terms-of-service/
+200     index, follow, max-im  self   NO    36     8505   /refund-policy/
+200     index, follow, max-im  self   NO    37     8505   /privacy-policy/
+200     noindex, follow        self   NO    27     9846   /cart/
+200     index, follow, max-im  self   NO    34     9142   /coming-soon/
+200     index, follow, max-im  self   NO    30     10306  /contact/
+200     index, follow, max-im  self   NO    32     9888   /licensing/
+200     index, follow, max-im  self   NO    32     12121  /about/
+200     index, follow, max-im  self   NO    27     14596  /shop/
+200     index, follow, max-im  self   NO    77     10261  /product/preorder-east-carolina-university-mahjongg-table-mat/
+200     index, follow, max-im  self   NO    69     10246  /product/preorder-meredith-college-mahjongg-table-mat/
+200     index, follow, max-im  self   NO    88     10273  /product/nc-state-mahjongg-set-coming-soon/
+200     index, follow, max-im  self   NO    93     11762  /product/east-carolina-mahjongg-set-coming-soon/
+200     index, follow, max-im  self   NO    85     10357  /product/meredith-college-mahjongg-set-coming-soon/
+200     index, follow, max-im  self   NO    72     10269  /product/preorder-nc-state-mahjongg-table-mat/
+200     index, follow, max-im  self   NO    56     13380  /product-category/shop-by-school/east-carolina-university/
+200     index, follow, max-im  self   NO    51     14113  /product-category/mahjongg-set/
+200     index, follow, max-im  self   NO    48     13437  /product-category/shop-by-school/meredith-college/
+200     index, follow, max-im  self   NO    40     13429  /product-category/shop-by-school/nc-state/
+200     index, follow, max-im  self   NO    46     14177  /product-category/shop-by-school/
+200     index, follow, max-im  self   NO    42     13445  /product-category/table-mats/
+200     index, follow, max-im  self   NO    56     13381  /product-tag/east-carolina-university/
+200     index, follow, max-im  self   NO    35     13377  /product-tag/ecu/
+200     index, follow, max-im  self   NO    73     13333  /product-tag/ecueast-carolinapiratescollege-mahjong/
+200     index, follow, max-im  self   NO    41     13402  /product-tag/mah-jongg/
+200     index, follow, max-im  self   NO    50     13428  /product-tag/mahjongg-table-mat/
+200     index, follow, max-im  self   NO    48     13378  /product-tag/meredith-college/
+200     index, follow, max-im  self   NO    64     13383  /product-tag/meredith-collegecollege-mahjong/
+200     index, follow, max-im  self   NO    40     13379  /product-tag/nc-state/
+200     index, follow, max-im  self   NO    65     13384  /product-tag/nc-statewolfpackcollege-mahjong/
+200     index, follow, max-im  self   NO    51     13426  /product-tag/officially-licensed/
+200     index, follow, max-im  self   NO    39     13377  /product-tag/pirates/
+200     index, follow, max-im  self   NO    40     13424  /product-tag/preorder/
+200     index, follow, max-im  self   NO    40     13377  /product-tag/wolfpack/
+
+=== Summary ===
+  URLs checked:            38
+  Non-200 responses:       0
+  Marked noindex:          3
+  Canonical not self:      1
+  Missing meta description:38
+  Thin (<200 words):       0
+
+>>> Blocking problems found. These pages cannot be indexed as-is.
+
+Next: git add -A && git commit -m 'Add indexability audit' && git push
