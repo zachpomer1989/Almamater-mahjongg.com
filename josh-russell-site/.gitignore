@@ -1,0 +1,18 @@
+# Never commit credentials or WP core
+wp-config.php
+*.sql
+*.sql.gz
+php_errorlog
+.DS_Store
+Thumbs.db
+
+# Keys — the private half must never leave your machine
+*.pem
+*.key
+*.ppk
+id_ed25519
+id_rsa
+
+# Local scratch
+*.log
+/tmp/
