@@ -16,12 +16,12 @@ Site root: `~/www/joshrussellrealestate.com/public_html`
 | | |
 |---|---|
 | Host | `ssh.joshrussellrealestate.com` (port 18765) |
-| User | `TBD` — Site Tools → Devs → SSH Keys Manager |
+| User | `u89-zsonvtejlmle` |
 | Key | `~/.ssh/joshrussell` (ed25519) |
 | DB | `TBD` — `wp config get DB_NAME` |
 
-> Fill in the `TBD` rows after Part 2 of `SETUP.md`. Usernames and DB names are
-> not secrets — the key is. Never commit the private key.
+> Fill in the DB name on the first export. Usernames and DB names are not
+> secrets — the key is. Never commit the private key.
 
 ## Stack
 

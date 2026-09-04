@@ -72,16 +72,18 @@ passphrase trouble. Use Import.
 2. Choose **Import** (not Generate)
 3. Paste the public key, name it `joshrussell`, save
 
-On that same page, note three values — you need all of them next:
+The connection values for this account are already known:
 
-- **Username**, of the form `u123-abcdefghijkl`
-- **Hostname**, usually `ssh.joshrussellrealestate.com`
-- **Port**, normally **18765** (not 22)
+| | |
+|---|---|
+| Hostname | `ssh.joshrussellrealestate.com` |
+| Username | `u89-zsonvtejlmle` |
+| Port | `18765` |
 
-Test the connection, substituting your real values:
+Test the connection:
 
 ```
-ssh -p 18765 -i $env:USERPROFILE\.ssh\joshrussell USERNAME@HOSTNAME
+ssh -p 18765 -i $env:USERPROFILE\.ssh\joshrussell u89-zsonvtejlmle@ssh.joshrussellrealestate.com
 ```
 
 First connection asks about host authenticity — type `yes`. Your machine is
@@ -93,13 +95,13 @@ ever changes.
 ## Part 3 — The `joshrussell` alias
 
 `scripts/export-wpcode.sh` calls `ssh joshrussell`, so define that alias once.
-Add this to `~/.ssh/config` (`$env:USERPROFILE\.ssh\config` on Windows),
-filling in the two real values:
+Add this to `~/.ssh/config` (`$env:USERPROFILE\.ssh\config` on Windows).
+The real values are already filled in:
 
 ```
 Host joshrussell
   HostName ssh.joshrussellrealestate.com
-  User u123-abcdefghijkl
+  User u89-zsonvtejlmle
   Port 18765
   IdentityFile ~/.ssh/joshrussell
   IdentitiesOnly yes
@@ -219,7 +221,7 @@ anyone who requests it.
 
 | Symptom | Cause |
 |---|---|
-| `Could not resolve hostname` | `USERNAME@HOSTNAME` pasted literally — substitute real values |
+| `Could not resolve hostname` | Host typo, or `~/.ssh/config` not saved — check `ssh -v joshrussell` |
 | Prompt changes to `>>` | PowerShell multi-line paste. Ctrl+C, run one block at a time |
 | Connection hangs | Wrong port. SiteGround is 18765, not 22 |
 | `Permission denied (publickey)` to SiteGround | Public key not imported, or the private half was imported by mistake |
