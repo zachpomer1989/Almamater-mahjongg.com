@@ -1,0 +1,23 @@
+# Meta descriptions for pages and products. TAB-separated: post_id <TAB> description
+# Reviewed and applied by apply-seo-fixes.sh. Edit any line before running.
+# Target length 120-160 characters. Lines starting with # are ignored.
+#
+# --- Pages ---
+371192	Officially licensed collegiate Mah Jongg tiles and table mats, handcrafted in the Carolinas. Celebrate your alma mater — NC State, ECU, and Meredith College.
+371328	Alma Mater Mah Jongg began in the Carolinas, blending the tradition of the game with the pride of your school. Meet the people behind the tiles.
+371332	Questions about our collegiate Mah Jongg sets, preorders, or university licensing? Get in touch with the Alma Mater Mah Jongg team in the Carolinas.
+371246	Shop officially licensed collegiate Mah Jongg tiles and table mats. NC State, East Carolina, and Meredith College designs, available now for preorder.
+371435	How Alma Mater Mah Jongg works with universities on official licensing, and what it takes to bring your school's colors and marks to a custom set.
+371313	Terms of service for Alma Mater Mah Jongg, covering orders, preorders, shipping, and use of almamater-mahjongg.com.
+371319	How Alma Mater Mah Jongg collects, uses, and protects your personal information when you shop with us.
+371337	Our refund and return policy, including preorder cancellations, damaged or defective items, and how to start a return.
+#
+# --- Products: table mats ---
+371418	Preorder the NC State Wolfpack Mah Jongg table mat. Officially licensed, cushioned for comfortable play, and finished in Wolfpack red and white.
+371477	Preorder the East Carolina Mah Jongg table mat. Officially licensed Pirates design in ECU purple and gold, cushioned for long game nights.
+371478	Preorder the Meredith College Mah Jongg table mat. Officially licensed, elegantly styled, and made for Meredith alumnae and student game nights.
+#
+# --- Products: tile and box sets ---
+371255	Preorder the NC State Wolfpack Mah Jongg set. A complete tile set in an acrylic display box, officially licensed in Wolfpack red and white.
+371293	Preorder the East Carolina Mah Jongg set. A complete tile set in an acrylic display box, officially licensed in ECU purple and gold.
+371294	Preorder the Meredith College Mah Jongg set. A complete tile set in an acrylic display box, officially licensed for Meredith alumnae and students.

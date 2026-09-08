@@ -1,0 +1,10 @@
+# Meta descriptions for product categories. TAB-separated:
+#   taxonomy <TAB> term_slug <TAB> description
+# Product tags are deliberately absent - they are being set to noindex.
+#
+product_cat	mahjongg-set	Complete collegiate Mah Jongg sets — a full tile set in an acrylic display box, officially licensed for NC State, ECU, and Meredith College.
+product_cat	table-mats	Officially licensed collegiate Mah Jongg table mats. Cushioned playing surfaces in your school's colors, made in the Carolinas.
+product_cat	shop-by-school	Browse Alma Mater Mah Jongg by school. Officially licensed tiles and table mats for NC State, East Carolina University, and Meredith College.
+product_cat	nc-state	NC State Wolfpack Mah Jongg tiles and table mats. Officially licensed collegiate designs in Wolfpack red and white.
+product_cat	east-carolina-university	East Carolina University Mah Jongg tiles and table mats. Officially licensed Pirates designs in ECU purple and gold.
+product_cat	meredith-college	Meredith College Mah Jongg tiles and table mats. Officially licensed collegiate designs for Meredith alumnae, students, and fans.
